@@ -58,12 +58,20 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="2">
-                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" ></span>面积:</p>
+                            <el-col :span="1" style="line-height: 32px; text-align: center; color: #999;" >
+                                面积:
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="2">
                                 <el-form-item label="" prop="minarea">
-                                    <el-input v-model.number="ruleTwoForm.minarea" placeholder="㎡ (数字/小数)"></el-input>
+                                    <el-input v-model="ruleTwoForm.minarea" placeholder="最小面积 (㎡)"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center;" >
+                                - -
+                            </el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="maxarea">
+                                    <el-input v-model="ruleTwoForm.maxarea" placeholder="最大面积 (㎡)"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -72,20 +80,36 @@
                             <el-col :span="2">
                                 <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" ></span>期望价格:</p>
                             </el-col>
-                            <el-col :span="3">
-                                <el-form-item label="" prop="minprice">
-                                    <el-input v-model.number="ruleTwoForm.minprice" placeholder="万元 (数字/小数)"></el-input>
-                                </el-form-item>
-                            </el-col>
 
-                            <el-col :span="2" style="line-height: 32px; text-align: center; color: #999;" >户型:</el-col>
-                            <el-col :span="3">
-                                <el-form-item label="" prop="housetype">
-                                    <el-input v-model.number="ruleTwoForm.housetype" placeholder="几室 (数字)"></el-input>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="minprice">
+                                    <el-input v-model="ruleTwoForm.minprice" placeholder="最小价格"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="2" style="line-height: 32px; text-align: center; color: #999;" >级别:</el-col>
-                            <el-col :span="3">
+                            <el-col :span="1" style="line-height: 32px; text-align: center;" >
+                                - -
+                            </el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="maxprice">
+                                    <el-input v-model="ruleTwoForm.maxprice" placeholder="最大价格"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center; color: #999;" >户型:</el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="housetypemin">
+                                    <el-input v-model="ruleTwoForm.housetypemin" placeholder="最小几室"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center;" >
+                                - -
+                            </el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="housetypemax">
+                                    <el-input v-model="ruleTwoForm.housetypemax" placeholder="最大几室"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center; color: #999;" >级别:</el-col>
+                            <el-col :span="2">
                             <el-form-item label="" prop="level">
                                 <el-select v-model="ruleTwoForm.level" @change="selectLevel" placeholder="A/B/C">
                                     <el-option v-for="item in optionslevel" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -100,7 +124,7 @@
                                 </el-form-item>
                             </el-col>
 
-                            <el-col :span="2">
+                            <el-col :span="1">
                                 <el-button type="info" @click="viewSearch" style="display: block;margin: 0 auto;" >搜索</el-button>
                             </el-col>
                             <el-col :span="2">
@@ -198,12 +222,20 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="2">
-                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" ></span>面积:</p>
+                            <el-col :span="1" style="line-height: 32px; text-align: center; color: #999;" >
+                                面积:
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="2">
                                 <el-form-item label="" prop="minarea">
-                                    <el-input v-model.number="ruleTwoForm.minarea" placeholder="㎡ (数字/小数)"></el-input>
+                                    <el-input v-model="ruleTwoForm.minarea" placeholder="最小面积 (㎡)"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center;" >
+                                - -
+                            </el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="maxarea">
+                                    <el-input v-model="ruleTwoForm.maxarea" placeholder="最大面积 (㎡)"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -212,20 +244,36 @@
                             <el-col :span="2">
                                 <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" ></span>期望价格:</p>
                             </el-col>
-                            <el-col :span="3">
-                                <el-form-item label="" prop="minprice">
-                                    <el-input v-model.number="ruleTwoForm.minprice" placeholder="万元 (数字/小数)"></el-input>
-                                </el-form-item>
-                            </el-col>
 
-                            <el-col :span="2" style="line-height: 32px; text-align: center; color: #999;" >户型:</el-col>
-                            <el-col :span="3">
-                                <el-form-item label="" prop="housetype">
-                                    <el-input v-model.number="ruleTwoForm.housetype" placeholder="几室 (数字)"></el-input>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="minprice">
+                                    <el-input v-model="ruleTwoForm.minprice" placeholder="最小价格"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="2" style="line-height: 32px; text-align: center; color: #999;" >级别:</el-col>
-                            <el-col :span="3">
+                            <el-col :span="1" style="line-height: 32px; text-align: center;" >
+                                - -
+                            </el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="maxprice">
+                                    <el-input v-model="ruleTwoForm.maxprice" placeholder="最大价格"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center; color: #999;" >户型:</el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="housetypemin">
+                                    <el-input v-model="ruleTwoForm.housetypemin" placeholder="最小几室"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center;" >
+                                - -
+                            </el-col>
+                            <el-col :span="2">
+                                <el-form-item label="" prop="housetypemax">
+                                    <el-input v-model="ruleTwoForm.housetypemax" placeholder="最大几室"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1" style="line-height: 32px; text-align: center; color: #999;" >级别:</el-col>
+                            <el-col :span="2">
                             <el-form-item label="" prop="level">
                                 <el-select v-model="ruleTwoForm.level" @change="selectLevel" placeholder="A/B/C">
                                     <el-option v-for="item in optionslevel" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -240,7 +288,7 @@
                                 </el-form-item>
                             </el-col>
 
-                            <el-col :span="2">
+                            <el-col :span="1">
                                 <el-button type="info" @click="viewSearch" style="display: block;margin: 0 auto;" >搜索</el-button>
                             </el-col>
                             <el-col :span="2">
@@ -495,7 +543,7 @@
                                 <el-button type="danger" :plain="true" @click="clearSHowYes('ruleForm')" style="display: block; margin: 0 auto; padding: 10px 35px; " >发布</el-button>
                             </el-col>
                             <el-col :span="6">
-                                <el-button type="info" :plain="true" @click="clearSHowNo()" style="display: block; margin: 0 auto; padding: 10px 35px; " >取消</el-button>
+                                <el-button type="info" :plain="true" @click="clearSHowNo('ruleForm')" style="display: block; margin: 0 auto; padding: 10px 35px; " >取消</el-button>
                             </el-col>
                             <el-col :span="6">
                                 &nbsp;
@@ -541,13 +589,15 @@
                 ruleTwoForm: {
                     time: '',
                     minarea: '',
+                    maxarea: '',
                     minprice:'',
-                    housetype: '',
+                    maxprice:'',
+                    housetypemin: '',
+                    housetypemax: '',
                     level: '',
                     usercode: '',
                 },
                 rulesTwo: {
-                    
                 },
                 todos: [
                     {text: '所有'},
@@ -668,7 +718,7 @@
                     value: '2',
                     label: '求租'
                 }],
-                // 来源
+                //来源
                 optionssource: [{
                     value: '1',
                     label: '来电'
@@ -677,7 +727,7 @@
                     label: '来访'
                 }, {
                     value: '3',
-                    label: '中介'
+                    label: '安居客'
                 }, {
                     value: '4',
                     label: '朋友'
@@ -689,13 +739,19 @@
                     label: '扫街'
                 }, {
                     value: '7',
-                    label: '网络'
+                    label: '赶集'
                 }, {
                     value: '8',
                     label: '搜房'
                 }, {
                     value: '9',
                     label: '口碑'
+                }, {
+                    value: '10',
+                    label: '58网'
+                }, {
+                    value: '11',
+                    label: '新浪'
                 }],
                 //用途
                 optionspurpose: [{
@@ -781,8 +837,11 @@
                 this.searchId1 = ''
                 this.ruleTwoForm.time = ''
                 this.ruleTwoForm.minarea = ''
+                this.ruleTwoForm.maxarea = ''
                 this.ruleTwoForm.minprice = ''
-                this.ruleTwoForm.housetype = ''
+                this.ruleTwoForm.maxprice = ''
+                this.ruleTwoForm.housetypemin = ''
+                this.ruleTwoForm.housetypemax = ''
                 this.ruleTwoForm.level = ''
                 this.ruleTwoForm.usercode = ''
                 // console.log(this.isHouseAll)
@@ -946,9 +1005,12 @@
                     city: this.dataarea,
                     area: this.dataqu,
                     period: this.searchId1,
-                    fromPrice: this.ruleTwoForm.minarea,
-                    fromMeasure: this.ruleTwoForm.minprice,
-                    bedroom: this.ruleTwoForm.housetype,
+                    fromMeasure: this.ruleTwoForm.minarea,
+                    toMeasure: this.ruleTwoForm.maxarea,
+                    fromPrice: this.ruleTwoForm.minprice,
+                    toPrice: this.ruleTwoForm.maxprice,
+                    fromBedRoom: this.ruleTwoForm.housetypemin,
+                    toBedRoom: this.ruleTwoForm.housetypemax,
                     bLevel: this.objLabel1,
                     userCode: this.ruleTwoForm.usercode,
                 }
@@ -1243,7 +1305,8 @@
                 });
             },
             // 隐藏添加客源 取消发布
-            clearSHowNo () {
+            clearSHowNo (formName) {
+                this.$refs[formName].resetFields()
                 this.appendHouse = false;
                 this.$message({
                     message: '取消发布',

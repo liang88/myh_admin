@@ -35,8 +35,7 @@
                             <p style="font-size:20px;color: #e54648;" >小区信息</p>
                         </el-col>
                         <el-col :span="12">
-                            <p v-if="isYN=='0'" style="line-height: 32px; float: right; color: #999;cursor: pointer;" @click="hosueShowY" >编辑</p>
-                            <p v-else style="line-height: 32px; float: right; color: #999;cursor: pointer;"></p>
+                            <p style="line-height: 32px; float: right; color: #999;cursor: pointer;" @click="hosueShowY" >编辑</p>
                         </el-col>
                     </el-row>
                     <el-row :gutter="10">
@@ -60,7 +59,7 @@
                             <p class="HC-title" ><span>建筑年代:</span> {{view.communityYears}}</p>
                         </el-col>
                         <el-col :span="12">
-                            <p class="HC-title" ><span>总&nbsp;户&nbsp;数:</span> {{view.totalHouse}}</p>
+                            <p class="HC-title" ><span>总&nbsp;户&nbsp;数:</span> {{view.totalHouse}} 户</p>
                         </el-col>
                     </el-row>
                     <el-row :gutter="10">
@@ -95,49 +94,63 @@
                     <p style="font-size: 20px;color: #e54648; padding: 10px 0" >客源信息</p>
                 </el-col>
                 <el-col :span="12">
-                    <p v-if="isYN=='0'" style="line-height: 32px; float: right; color: #999;cursor: pointer;" @click="hosueShowY" >编辑</p>
-                    <p v-else style="line-height: 32px; float: right; color: #999;cursor: pointer;"></p>
+                    <p style="line-height: 32px; float: right; color: #999;cursor: pointer;" @click="hosueShowY" >编辑</p>
                 </el-col>
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="8">
-                    <p class="HC-title" ><span>经&nbsp;&nbsp;纪&nbsp;人:</span> {{view.fromAgent}}</p>
+                    <p v-if="isYN === '0'" class="HC-title" >
+                        <span style="float:left;">经&nbsp;&nbsp;纪 &nbsp;人:</span>
+                        <i v-show="liuerpi" @click="clickyipi" style="cursor: pointer;">{{view.fromAgent}}</i>
+                        <el-autocomplete
+                            v-show="liuyipi"
+                            style="width: 40%;float: left;"
+                            v-model="liu"
+                            :fetch-suggestions="querySearchAsyncTwo"
+                            @select="handleSelectTwo"
+                            placeholder="请输入经纪人姓名"
+                        >
+                        </el-autocomplete>
+                        <el-button v-show="liuyipi" type="info" :plain="true" @click="clickerpi" style="float: left;" >确定</el-button>
+                        <el-button v-show="liuyipi" type="info" :plain="true" @click="clickesanpi" style="float: left;" >取消</el-button>
+                    </p>
+                    <p v-else class="HC-title" ><span>经&nbsp;&nbsp;纪 &nbsp;人:</span> {{view.fromAgent}}</p>
                 </el-col>
                 <el-col :span="8">
                     <p class="HC-title" ><span>委托时间:</span> {{view.entrustTime}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代:</span> {{view.constructYear}}</p>
+                    <p class="HC-title" ><span>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;代:</span> {{view.constructYear}}年</p>
                 </el-col>
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="8">
-                    <p class="HC-title" ><span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格:</span> {{view.nowPrice}}</p>
+                    <p class="HC-title" ><span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;格:</span> {{view.nowPrice}}</p>
                 </el-col>
                 <el-col :span="8">
                     <p class="HC-title" ><span>交房时间:</span> {{view.deliverTime}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向:</span> {{view.direction}}</p>
+                    <p class="HC-title" ><span>朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;向:</span> {{view.direction}}</p>
                 </el-col>
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="8">
-                    <p class="HC-title" ><span>原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;值:</span> {{view.oldPrice}}</p>
+                    <p class="HC-title" ><span>原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;值:</span> {{view.oldPrice}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:</span> {{view.layout}}</p>
+                    <p class="HC-title" ><span>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;型:</span> {{view.layout}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>钥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;匙:</span> {{view.keyState}}</p>
+                    <p class="HC-title" ><span>钥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;匙:</span> {{view.keyState}}</p>
                 </el-col>
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="8">
-                    <p class="HC-title" ><span>盘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</span> {{view.houseType}}</p>
+                    <p class="HC-title" ><span>盘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;别:</span> {{view.houseType}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;售:</span> {{view.sellState}}</p>
+                    <p class="HC-title" ><span>租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;售:</span> {{view.sellState}}</p>
                 </el-col>
                 <el-col :span="8">
                     <p class="HC-title" ><span>是否有税:</span> {{view.tax}}</p>
@@ -148,10 +161,10 @@
                     <p class="HC-title" ><span>建筑面积:</span> {{view.totalMeasure}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源:</span> {{view.sourceFrom}}</p>
+                    <p class="HC-title" ><span>来&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;源:</span> {{view.sourceFrom}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>装&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修:</span> {{view.decoration}}</p>
+                    <p class="HC-title" ><span>装&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;修:</span> {{view.decoration}}</p>
                 </el-col>
             </el-row>
             <el-row :gutter="10">
@@ -170,14 +183,19 @@
                     <p class="HC-title" ><span>委托方式:</span> {{view.entrustType}}</p>
                 </el-col>
                 <el-col :span="8">
-                    <p class="HC-title" ><span>现&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状:</span> {{view.houseState}}</p>
+                    <p class="HC-title" ><span>现&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;状:</span> {{view.houseState}}</p>
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    <p class="HC-title" ><span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;注:</span> {{view.remarks}}</p>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="24">
-                    <el-collapse @change="viewsellers" >
+                    <el-collapse @change="viewsellersTwo">
                         <el-collapse-item title="查看业主信息">
-                            <el-row :gutter="10">
+                            <el-row :gutter="10" >
                                 <el-col :span="24">
                                     <p class="HC-title" ><span>业主信息:</span> {{viewseller.sellerName}} {{viewseller.sellerMobileOne}} {{viewseller.sellerMobileTwo}}</p>
                                 </el-col>
@@ -220,25 +238,8 @@
                             <el-col :span="22">
                                 <p class="comment-con comment-con-list" >{{view.followText}} </p>
                             </el-col>
-                            <el-col v-if="isYN=='0'" :span="1" style="padding: 0;cursor: pointer;text-align: center;" >
-                                <p class="setFont">更改</p>
-                            </el-col>
-                            <el-col v-if="isYN=='0'" :span="1" style="padding: 0;cursor: pointer;text-align: center;" >
-                                <p class="setFont">删除</p>
-                            </el-col>
-                            <el-col v-else :span="1" style="padding: 0;cursor: pointer;text-align: center;" >
-                                <p class="setFont"></p>
-                            </el-col>
-                            <el-col v-else :span="1" style="padding: 0;cursor: pointer;text-align: center;" >
-                                <p class="setFont"></p>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="20" style="margin-top: 10px">
                             <el-col :span="2">
-                                <p style="color: #9b261d;" >{{view.followType}} </p>
-                            </el-col>
-                            <el-col :span="20">
-                                <p class="setFont">下次跟进时间: <span>{{view.remindTime}}</span></p>
+                                <p style="color: #9b261d; text-align: right;" >{{view.followType}} </p>
                             </el-col>
                         </el-row>
                     </el-col>
@@ -257,53 +258,56 @@
             </div>
             <transition name="el-zoom-in-center">
                 <div class="append-house" v-show="appendFollow" >
-                    <div class="append-information">
-                        <div class="infor-title">
-                            添加跟进
-                        </div>
-                        <el-row :gutter="5" style="padding: 10px 0;" >
-                            <el-col style="text-align: center;" :span="3">
-                                选择跟进方式 : 
-                            </el-col>
-                            <el-col :span="21">
-                                <span class="classes" :class="{color:index == current}" @click="addClass(index)" v-for="(todo,index) in todos" >{{todo.text}}</span>
-                            </el-col>
-                        </el-row>
-                        <el-form :model="ruleFormS" :rules="rulesS" ref="ruleFormS">
+                    <div id="append-informationTwo" @mousedown.self="move" @mouseover.self="isAppendInformation=false" @mouseout.self="isAppendInformation=true">
+                        <p class="append-p" v-show="isAppendInformation">拖拽区域</p>
+                        <div class="append-information" id="append-informationTwoTwo">
+                            <div class="infor-title">
+                                添加跟进
+                            </div>
                             <el-row :gutter="5" style="padding: 10px 0;" >
-                                <el-col style="text-align: center; margin-top: 5px;" :span="3">
-                                    选择跟进时间 : 
+                                <el-col style="text-align: center;" :span="3">
+                                    选择跟进方式 : 
                                 </el-col>
                                 <el-col :span="21">
-                                    <el-form-item label="" prop="timeone">
-                                        <el-date-picker v-model="ruleFormS.timeone" type="datetime" placeholder="选择跟进时间" default-time="12:00:00"></el-date-picker>
-                                    </el-form-item>
+                                    <span class="classes" :class="{color:index == current}" @click="addClass(index)" v-for="(todo,index) in todos" >{{todo.text}}</span>
                                 </el-col>
                             </el-row>
+                            <el-form :model="ruleFormS" :rules="rulesS" ref="ruleFormS">
+                                <!-- <el-row :gutter="5" style="padding: 10px 0;" >
+                                    <el-col style="text-align: center; margin-top: 5px;" :span="3">
+                                        选择跟进时间 : 
+                                    </el-col>
+                                    <el-col :span="21">
+                                        <el-form-item label="" prop="timeone">
+                                            <el-date-picker v-model="ruleFormS.timeone" type="datetime" placeholder="选择跟进时间" default-time="12:00:00"></el-date-picker>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row> -->
+                                <el-row :gutter="5" style="padding: 10px 0;" >
+                                    <el-col style="text-align: center; margin-top: 5px;" :span="24">
+                                        <el-form-item label="" prop="neirong">
+                                            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 10}" placeholder="请输入跟进内容" v-model="ruleFormS.neirong">
+                                            </el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                            </el-form>
                             <el-row :gutter="5" style="padding: 10px 0;" >
-                                <el-col style="text-align: center; margin-top: 5px;" :span="24">
-                                    <el-form-item label="" prop="neirong">
-                                        <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 10}" placeholder="请输入跟进内容" v-model="ruleFormS.neirong">
-                                        </el-input>
-                                    </el-form-item>
+                                <el-col :span="10">
+                                    &nbsp;
+                                </el-col>
+                                <el-col :span="2">
+                                    <el-button type="danger" :plain="true" @click="clearShowYesTwo('ruleFormS')" style="display: block; margin: 0 auto; padding: 10px 35px; " >发布</el-button>
+                                </el-col>
+                                <el-col :span="2">
+                                    <el-button type="info" :plain="true" @click="clearShowNoTwo" v-show="isYesNo" style="display: block; margin: 0 auto; padding: 10px 35px; " >取消</el-button>
+                                </el-col>
+                                <el-col :span="10">
+                                    &nbsp;
                                 </el-col>
                             </el-row>
-                        </el-form>
-                        <el-row :gutter="5" style="padding: 10px 0;" >
-                            <el-col :span="6">
-                                &nbsp;
-                            </el-col>
-                            <el-col :span="6">
-                                <el-button type="danger" :plain="true" @click="clearShowYesTwo('ruleFormS')" style="display: block; margin: 0 auto; padding: 10px 35px; " >发布</el-button>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-button type="info" :plain="true" @click="clearShowNoTwo" style="display: block; margin: 0 auto; padding: 10px 35px; " >取消</el-button>
-                            </el-col>
-                            <el-col :span="6">
-                                &nbsp;
-                            </el-col>
-                        </el-row>
-                        </el-form>
+                            </el-form>
+                        </div>
                     </div>
                 </div>
             </transition>
@@ -327,7 +331,7 @@
                             <el-col :span="4">
                                 <!-- <el-input v-model="input" placeholder="请输入姓名"></el-input> -->
                                 <el-form-item label="" prop="name">
-                                    <el-input v-model="ruleForm.name" placeholder="请输入姓名"></el-input>
+                                    <el-input :disabled="isYN  === '1' ? true : false" v-model="ruleForm.name" placeholder="请输入姓名"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2">
@@ -335,7 +339,7 @@
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item label="" prop="ages">
-                                    <el-select v-model="ruleForm.ages" @change="selectAge" placeholder="男/女">
+                                    <el-select :disabled="isYN  === '1' ? true : false" v-model="ruleForm.ages" @change="selectAge" placeholder="男/女">
                                         <el-option v-for="item in optionsage" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                     </el-select>
                                 </el-form-item>
@@ -345,14 +349,14 @@
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item label="" prop="phone">
-                                    <el-input v-model="ruleForm.phone" placeholder="请输入手机号1"></el-input>
+                                    <el-input :disabled="isYN  === '1' ? true : false" v-model="ruleForm.phone" placeholder="请输入手机号1"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2">
                                 <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" ></span>手机号2:</p>
                             </el-col>
                             <el-col :span="4">
-                                <el-input v-model="ruleForm.phoneTwo" placeholder="请输入手机号2"></el-input>
+                                <el-input :disabled="isYN  === '1' ? true : false" v-model="ruleForm.phoneTwo" placeholder="请输入手机号2"></el-input>
                             </el-col>
                         </el-row>
                     </el-form>
@@ -424,21 +428,21 @@
                             </el-col>
                             <el-col :span="1" class="qupd" >
                                 <el-form-item label="" prop="building">
-                                    <el-input v-model="ruleFormTwo.building" placeholder="栋"></el-input>
+                                    <el-input :disabled="isYN  === '1' ? true : false" v-model="ruleFormTwo.building" placeholder="栋"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="1" class="qupd" >
                                 <el-form-item label="" prop="unit">
-                                    <el-input v-model="ruleFormTwo.unit" placeholder="单元"></el-input>
+                                    <el-input :disabled="isYN  === '1' ? true : false" v-model="ruleFormTwo.unit" placeholder="单元"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="1" class="qupd" >
                                 <el-form-item label="" prop="hao">
-                                    <el-input v-model="ruleFormTwo.hao" placeholder="号"></el-input>
+                                    <el-input :disabled="isYN  === '1' ? true : false" v-model="ruleFormTwo.hao" placeholder="号"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2">
-                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" >* </span>总层数:</p>
+                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" >* </span>层数:</p>
                             </el-col>
                             <el-col :span="2" class="qupd" >
                                 <el-form-item label="" prop="floor">
@@ -491,11 +495,13 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2">
-                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" >* </span>房源编号:</p>
+                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" >* </span>状态:</p>
                             </el-col>
                             <el-col :span="4">
-                                <el-form-item label="" prop="houseCode">
-                                    <el-input :disabled='isclick' v-model="ruleFormTwo.houseCode"  placeholder="点击生成编号"></el-input>
+                                <el-form-item label="" prop="stateTwo">
+                                    <el-select v-model="ruleFormTwo.stateTwo" @change="selectStateTwo" @bule placeholder="请选择状态">
+                                        <el-option v-for="item in optionsstateTwo" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                    </el-select>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -632,7 +638,7 @@
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item label="" prop="houseCode">
-                                    <el-input :disabled='isclick' v-model="ruleFormTwo.houseCode"placeholder="委托编号"></el-input>
+                                    <el-input :disabled="true" v-model="ruleFormTwo.houseCode"placeholder="委托编号"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -658,8 +664,13 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="6">
-                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" >&nbsp;</span></p>
+                            <el-col :span="2">
+                                <p style="text-align: center;line-height: 32px; font-size: 14px; color: #999;" ><span style="color: red;" >* </span>房源编号:</p>
+                            </el-col>
+                            <el-col :span="4">
+                                <el-form-item label="" prop="houseCode">
+                                    <el-input :disabled="true" v-model="ruleFormTwo.houseCode"  placeholder="点击生成编号"></el-input>
+                                </el-form-item>
                             </el-col>
                      <!--        <el-col :span="6">
                                 <el-button type="danger" @click="houseRepeat" style="float: right; padding: 10px 50px; " >查重</el-button>
@@ -725,6 +736,12 @@
         name: 'contents',
         data() {
             return {
+                liu: '',
+                liuyipi: false,
+                liuerpi: true,
+                fromCommunityId: '',
+                peopleType: '',
+                isAppendInformation: true,
                 //禁止选今天之前的时间
                 pickerOptions0: {
                     disabledDate(time) {
@@ -737,6 +754,7 @@
                 pageSize: 5,
                 viewAll: 5,
                 diyige: 1,
+                isYesNo: false,
                 //添加跟进
                 appendHouse: false,
                 isYN: '',
@@ -768,13 +786,13 @@
                     {text: '其他'},
                 ],
                 ruleFormS: {
-                    timeone: '',
-                    neirong: '',
+                    // timeone: '',
+                    neirong: ' ',
                 },
                 rulesS: {
-                    timeone: [
-                        { required: true, message: '请选择跟进时间', trigger: 'blur' },
-                    ],
+                    // timeone: [
+                    //     { required: true, message: '请选择跟进时间', trigger: 'blur' },
+                    // ],
                     neirong: [
                         { required: true, message: '请填写内容', trigger: 'blur' },
                     ],
@@ -837,6 +855,7 @@
                 selectStateUse: '',
                 isclick: true,
                 remarks: '',
+                selectStateTwoUse: '',
                 ruleFormTwo: {
                     rent: '',
                     numberid:'',
@@ -860,6 +879,7 @@
                     mykey: '',
                     tax: '',
                     orientation: '',
+                    stateTwo: '',
                     renovation: '',
                     propertyright: '',
                     entrust: '',
@@ -955,6 +975,17 @@
                     value: '2',
                     label: '出租'
                 }],
+                //状态
+                optionsstateTwo: [{
+                    value: '1',
+                    label: '有效'
+                }, {
+                    value: '3',
+                    label: '暂缓'
+                }, {
+                    value: '4',
+                    label: '无效'
+                }],
                 //商圈
                 optionspurpose: [{
                     value: '1',
@@ -1040,6 +1071,15 @@
                 }, {
                     value: '8',
                     label: '西北'
+                }, {
+                    value: '9',
+                    label: '中间'
+                }, {
+                    value: '10',
+                    label: '独栋'
+                }, {
+                    value: '11',
+                    label: '东西'
                 }],
                 //装修
                 optionsrenovation: [{
@@ -1088,6 +1128,9 @@
                 }, {
                     value: '6',
                     label: '收购'
+                }, {
+                    value: '7',
+                    label: '非独家'
                 }],
                 //来源
                 optionssource: [{
@@ -1098,7 +1141,7 @@
                     label: '来访'
                 }, {
                     value: '3',
-                    label: '中介'
+                    label: '安居客'
                 }, {
                     value: '4',
                     label: '朋友'
@@ -1110,13 +1153,19 @@
                     label: '扫街'
                 }, {
                     value: '7',
-                    label: '网络'
+                    label: '赶集'
                 }, {
                     value: '8',
                     label: '搜房'
                 }, {
                     value: '9',
                     label: '口碑'
+                }, {
+                    value: '10',
+                    label: '58网'
+                }, {
+                    value: '11',
+                    label: '新浪'
                 }],
                 //现状
                 optionsstate: [{
@@ -1139,6 +1188,140 @@
             this.followView ()
         },
         methods: {
+            clickyipi () {
+                this.liuyipi = true
+                this.liuerpi = false
+            },
+            clickesanpi () {
+                this.liuyipi = false
+                this.liuerpi = true
+                this.$message.error('取消修改');
+            },
+            clickerpi () {
+                if (this.liu == '') {
+                    this.$message.error('经纪人不能为空');
+                    return
+                }
+                this.liuyipi = false
+                this.liuerpi = true
+                var datas = {
+                    peopleType: this.peopleType,
+                    shId: this.$route.params.id,
+                    id: this.fromCommunityId
+                }
+                this.$http.post(myHost+'myh_management/changeAgentOwner',datas).then((response) => {
+                    if (response.headers['code'] === '3') {
+                        // console.log(response.headers['message'])
+                        this.$router.push('/login');
+                        this.$message.error('登陆超时，请重新登陆');
+                    } else if (response.headers['code'] === '4') {
+                        this.$router.push('/login');
+                        this.$message.error('您的账号在其他地方登陆');
+                    } else {
+                        var data = response.data
+                        data = data.resultBean
+                        var code = data.code
+                        if (code == '0') {
+                            this.$message({
+                                message: data.message,
+                                type: 'success',
+                            });
+                            console.log(data.message)
+                            this.liu = ''
+                            this.viewHouse ()
+                        } else if (code == '3') {
+                            this.$router.push('/login');
+                            this.$message.error(data.message);
+                        } else {
+                            this.$message.error(data.message);
+                            console.log(data.message)
+                        }
+                    }
+                })
+            },
+            //queryString 为在框中输入的值
+            //callback 回调函数,将处理好的数据推回
+            querySearchAsyncTwo(queryString, callback) {
+                var list = [{}];
+                 //调用的后台接口
+                // console.log(queryString)
+                // console.log(callback)
+                this.queryString = queryString
+                var data = {
+                    shId: this.$route.params.id,
+                    keyWord: queryString,
+                }
+                this.$http.post(myHost+'myh_management/searchNameByString',data).then((response)=>{
+                    if (response.headers['code'] === '3') {
+                        // console.log(response.headers['message'])
+                        this.$router.push('/login');
+                        this.$message.error('登陆超时，请重新登陆');
+                    } else if (response.headers['code'] === '4') {
+                        this.$router.push('/login');
+                        this.$message.error('您的账号在其他地方登陆');
+                    } else {
+                        //在这里为这个数组中每一个对象加一个value字段, 因为autocomplete只识别value字段并在下拉列中显示
+                        // for(let i of response.data){
+                        //     i.value = i.communityName;  //将想要展示的数据作为value
+                        // }
+                        // list = response.data;
+                        var data = response.data
+                        data = data.resultBean
+                        var code = data.code
+                        if (code == '0') {
+                            console.log(response)
+                            var obj = data.object
+                            for (var i = 0; i < obj.length; i++) {
+                                obj[i].value = obj[i].name
+                            }
+                            list = obj;
+                            console.log(list)
+                            this.$message({
+                                message: '搜索经纪人成功',
+                                type: 'success',
+                            });
+                        } else if (code == '1') {
+                            this.$message.error(data.message);
+                        } else if (code == '3') {
+                            this.$router.push('/login');
+                            this.$message.error(data.message);
+                        } else {
+                            this.$message.error(data.message);
+                        }
+                    }
+                    callback(list);
+                }).catch((error)=>{
+                    console.log(error);
+                });
+            },
+            //@select="handleSelect"  是选中某一列触发的事件,在这里item为选中段字所在的对象
+            //循环数据
+            handleSelectTwo(item) {
+                this.fromCommunityId = item.id
+                this.peopleType = item.peopleType
+            },
+            //移动 添加跟进 事件
+            move(e){
+              let odiv = e.target;    //获取目标元素
+              //算出鼠标相对元素的位置
+              let disX = e.clientX - odiv.offsetLeft;
+              let disY = e.clientY - odiv.offsetTop;
+              document.onmousemove = (e)=>{    //鼠标按下并移动的事件
+                //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+                let left = e.clientX - disX;
+                let top = e.clientY - disY;
+                //绑定元素位置到positionX和positionY上面
+                this.positionX = top;
+                this.positionY = left;
+                //移动当前元素
+                odiv.style.left = left + 'px';
+                odiv.style.top = top + 'px';
+              };
+              document.onmouseup = (e) => {
+                document.onmousemove = null;
+                document.onmouseup = null;
+              };
+            },
             //修改 展示的数据
             hosueShowY () {
                 this.appendHouse = true
@@ -1261,6 +1444,13 @@
                                 if (this.optionsstate[i].value == views.houseState) {
                                     this.ruleFormTwo.state = this.optionsstate[i].label
                                     console.log(this.ruleFormTwo.state)
+                                }
+                            }
+                            //  状态
+                            for (let i = 0; i < this.optionsstateTwo.length; i++) {
+                                if (this.optionsstateTwo[i].value == views.sellState) {
+                                    this.ruleFormTwo.stateTwo = this.optionsstateTwo[i].label
+                                    console.log(this.ruleFormTwo.stateTwo)
                                 }
                             }
                             //获取图片展示
@@ -1632,6 +1822,17 @@
                 console.log(vId)
                 this.selectStateUse = vId
             },
+            //下拉框选中事件 状态
+            selectStateTwo(vId){//这个vId也就是value值
+                // console.log(ha)
+                let obj = {}
+                obj = this.optionsstateTwo.find((item)=>{//这里的userList就是上面遍历的数据源
+                    return item.value === vId;//筛选出匹配数据
+                })
+                console.log(obj.label)//我这边的name就是对应label的
+                console.log(vId)
+                this.selectStateTwoUse = vId
+            },
             //删除成功收回调
             handleRemove(file, fileList) {
                 // console.log(fileList);
@@ -1747,7 +1948,6 @@
             // },
             // 发布验证
             clearSHowYes (formName) {
-                var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
                 if ( !this.ruleForm.name) {
                     this.$message.error('请输入姓名');
                     return
@@ -1758,10 +1958,6 @@
                 }
                 if ( !this.ruleForm.phone) {
                     this.$message.error('请输入手机号码');
-                    return
-                }
-                if ( !reg.test(this.ruleForm.phone)) {
-                    this.$message.error('手机号码格式不正确');
                     return
                 }
                 console.log(this.ruleFormTwo.timeone)
@@ -1864,18 +2060,37 @@
             //跟进显示
             isShow () {
                 this.appendFollow = true
+                this.isYesNo = true
             },
             // 添加跟进
             clearShowYesTwo (formName) {
+                var input  = /^[\s]*$/;
+                if (input.test(this.ruleFormS.neirong)) {
+                    this.$message.error('跟进内容不能为空')
+                    return
+                }
+                var reg = /^[\u4e00-\u9fa5]+$/
+                if (!reg.test(this.ruleFormS.neirong)) {
+                    if (this.ruleFormS.neirong.length < 5) {
+                        this.$message.error('跟进内容不能少于5个字符')
+                        return
+                    }
+                } else {
+                    var strLen = this.ruleFormS.neirong.match(/[\u4e00-\u9fa5]/g).length
+                    if (strLen < 5) {
+                        this.$message.error('跟进内容不能少于5个字')
+                        return
+                    }
+                }
+
                 var that = this
-                console.log(this.$refs[formName])
+                // console.log(this.$refs[formName])
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var classes = this.current+1
                         var up = {
                             hHouseId: this.$route.params.id,
                             hFollows: this.ruleFormS.neirong,
-                            hRemindTime: this.ruleFormS.timeone,
                             hFollowMethod: classes,
                         }
                         this.$http.post(myHost+'myh_management/insertHouseFollow',up).then((response) => {
@@ -1898,6 +2113,8 @@
                                     });
                                     this.followView ()
                                     this.appendFollow = false
+                                    this.ruleFormS.neirong = ''
+                                    this.current = 0
                                 } else if (code == '3') {
                                     this.$router.push('/login');
                                     this.$message.error(data.message);
@@ -1954,8 +2171,13 @@
                 console.log(this.current)
             },
             //点击展示卖家信息
+            viewsellersTwo () {
+                this.appendFollow = true
+                this.viewsellers ()
+            },
             viewsellers (activeNames) {
-                console.log(activeNames)
+                this.isYesNo = false
+                // console.log(activeNames)
                 var datas = {
                     sellerId: this.sellerId,
                     shId: this.$route.params.id
@@ -2209,6 +2431,43 @@
         margin-right: 5px;
         cursor: pointer;
         transition: all 1s ease;
+    }
+    .append-house #append-informationTwo{
+        position: relative;
+        width: 55%;
+        height: auto;
+        padding: 20px;
+        background: #fff;
+        top: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding-top: 50px;
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
+    }
+    .append-house #append-informationTwo .infor-title{
+        line-height: 50px;
+        border-top: 1px solid #ccc;
+    }
+    .append-house #append-informationTwo #append-informationTwoTwo{
+        width: 100%;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        background: #fff;
+    }
+    .append-house #append-informationTwo .append-p{
+        cursor: default;
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 99;
+        color: #ccc;
+        cursor: move;
     }
 /*append-house 添加房源 */
     .append-house{

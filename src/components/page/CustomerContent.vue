@@ -576,43 +576,40 @@
                     value: '9',
                     label: '口碑'
                 }],
-                //用途
-                optionspurpose: [{
+                //来源
+                optionssource: [{
                     value: '1',
-                    label: '住宅'
+                    label: '来电'
                 }, {
                     value: '2',
-                    label: '商铺'
+                    label: '来访'
                 }, {
                     value: '3',
-                    label: '写字楼'
+                    label: '安居客'
                 }, {
                     value: '4',
-                    label: '商住'
+                    label: '朋友'
                 }, {
                     value: '5',
-                    label: '网点'
+                    label: '广告'
                 }, {
                     value: '6',
-                    label: '厂房'
+                    label: '扫街'
                 }, {
                     value: '7',
-                    label: '写厂'
+                    label: '赶集'
                 }, {
                     value: '8',
-                    label: '铺厂'
+                    label: '搜房'
                 }, {
                     value: '9',
-                    label: '仓库'
+                    label: '口碑'
                 }, {
                     value: '10',
-                    label: '地皮'
+                    label: '58网'
                 }, {
                     value: '11',
-                    label: '车位'
-                }, {
-                    value: '12',
-                    label: '其他'
+                    label: '新浪'
                 }],
                 //级别
                 optionslevel: [{

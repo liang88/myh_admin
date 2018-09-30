@@ -232,8 +232,8 @@
                         // }
                         var datas = {
                             mobile: this.ruleForm2.phones,
-                            password: this.ruleForm2.pass,
-                            confirmPassword: this.ruleForm2.checkPass,
+                            password: md5(this.ruleForm2.pass),
+                            confirmPassword: md5(this.ruleForm2.checkPass),
                             valiCode: this.ruleForm2.codes,
                         }
                         this.$http.post(myHost+this.isPassword+'',datas).then((response) => {
@@ -267,8 +267,8 @@
                         // }
                         var datas = {
                             mobile: this.ruleForm3.phones,
-                            password: this.ruleForm3.pass,
-                            confirmPassword: this.ruleForm3.checkPass,
+                            password: md5(this.ruleForm3.pass),
+                            confirmPassword: md5(this.ruleForm3.checkPass),
                             valiCode: this.ruleForm3.codes,
                         }
                         this.$http.post(myHost+this.isPassword+'',datas).then((response) => {
@@ -351,7 +351,7 @@
                 }
                 var infos = {
                     loginMobile: this.myPhone,
-                    password: this.myPassword,
+                    password: md5(this.myPassword),
                     clientType: 2
                 }
                 this.$http.post(myHost+'myh_management/agentLogin',infos).then((response) => {
@@ -422,7 +422,7 @@
                 }
                 var infos = {
                     loginMobile: this.myPhone,
-                    password: this.myPassword,
+                    password: md5(this.myPassword),
                     valiCode: this.myCode,
                     clientType: 2
                 }
@@ -481,9 +481,10 @@
                     });
                     return
                 }
+                console.log(md5(this.myPassword))
                 var infos = {
                     loginMobile: this.myPhone,
-                    password: this.myPassword,
+                    password: md5(this.myPassword),
                     clientType: 2
                 }
                 this.$http.post(myHost+'myh_management/managerLogin',infos).then((response) => {
@@ -554,7 +555,7 @@
                 }
                 var infos = {
                     loginMobile: this.myPhone,
-                    password: this.myPassword,
+                    password: md5(this.myPassword),
                     valiCode: this.myCode,
                     clientType: 2
                 }
