@@ -44,12 +44,15 @@
                                 <el-button type="primary" @click="viewSeachAll" style="float:left;" >搜索</el-button>
                             </el-col>
                             <el-col :span="4">&nbsp;</el-col>
-                            <el-col :span="3">
+                            <el-col v-if="isYN  === '0'" :span="3">
                                 <el-form-item label="" prop="searchTime">
                                     <el-select v-model="searchTime" @change="selectSearchTime" placeholder="请选择导出时间">
                                         <el-option v-for="item in optionssearchTime" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                     </el-select>
                                 </el-form-item>
+                            </el-col>
+                            <el-col v-else :span="3" style="line-height: 32px; text-align: center; color: #999;" >
+                                &nbsp;
                             </el-col>
                             <el-col v-if="isYN  === '0'" :span="2" style="line-height: 32px; text-align: center; color: #999;" >
                                 <el-button type="info" @click="export_Excel" style="display: block;margin: 0 auto;" >导出</el-button>
@@ -953,7 +956,7 @@
                         <el-dialog :visible.sync="dialogVisible">
                             <img width="100%" :src="dialogImageUrl" alt="">
                         </el-dialog>
-        <!-- 图片信息 -->
+        <!-- 委托书图片信息 -->
                         <div class="infor-title-two">
                             授权委托
                         </div>

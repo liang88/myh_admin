@@ -4,7 +4,7 @@
         <el-row :gutter="20">
             <el-col :span="24">
                 <el-tabs v-model="activeName" @tab-click="handleClick" >
-                    <el-tab-pane label="今日" name="1">
+                    <el-tab-pane label="昨天" name="1">
                         <el-row :gutter="10">
                             <el-col :span="6">
                                 <div class="grid-content bg-purple clear">

@@ -12,7 +12,7 @@
                 <el-col :span="11">
                     <template>
                         <el-carousel :interval="5000" indicator-position="none" arrow="always">
-                            <el-carousel-item v-for="item in img" :key="item">
+                            <el-carousel-item v-for="item in img1" :key="item">
                                 <img :src="item" style="height: 100%;" alt="">
                             </el-carousel-item>
                         </el-carousel>
@@ -677,7 +677,7 @@
                             </el-col> -->
                         </el-row>
         <!-- 图片信息 -->
-          <!--               <div class="infor-title-two">
+                        <div class="infor-title-two">
                             图片信息
                         </div>
                         <el-upload
@@ -689,7 +689,7 @@
                             :on-preview="handlePictureCardPreview"
                             :onSuccess="uploadSuccess"
                             :beforeUpload="beforeAvatarUpload"
-                            :data="{imgType:1}"
+                            :data="{imgType:'1'}"
                             :on-remove="handleRemove"
                             :file-list="fileList"
                             style="padding: 20px 0;">
@@ -697,7 +697,30 @@
                         </el-upload>
                         <el-dialog :visible.sync="dialogVisible">
                             <img width="100%" :src="dialogImageUrl" alt="">
-                        </el-dialog> -->
+                        </el-dialog>
+        <!-- 委托书图片信息 -->
+                        <div class="infor-title-two">
+                            授权委托
+                        </div>
+                        <el-upload
+                            :with-credentials=true
+                            :disabled="disabledUpload"
+                            :on-exceed="uploadMaxTwo"
+                            :limit="1"
+                            :action="uploadImgUrl"
+                            list-type="picture-card"
+                            :on-preview="handlePictureCardPreview"
+                            :onSuccess="uploadSuccessTwo"
+                            :beforeUpload="beforeAvatarUpload"
+                            :data="{imgType:'2'}"
+                            :on-remove="handleRemoveTwo"
+                            :file-list="fileListTwo"
+                            style="padding: 20px 0;">
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt="">
+                        </el-dialog>
         <!-- 备注信息 -->
                         <div class="infor-title-two">
                             备注信息
@@ -765,8 +788,7 @@
                 img: [],
                 imgA: [],
                 imgB: [],
-                imgC: [],
-                imgD: [],
+                img2: [],
                 appendFollow: false,
                 current: 0,
                 todos: [
@@ -831,10 +853,11 @@
 //添加房源two
                 dialogImageUrl: '',
                 dialogVisible: false,
-                uploadImgUrl: 'http://www.manyihefc.com:8080/myh_management/uploadImage',
+                uploadImgUrl: 'http://www.manyihefc.com:8080/myh_management/uploadImage/',
                 disabledUpload: false,
                 fileList: [],
-                img: [],
+                fileListTwo: [],
+                img1: [],
                 xiaoqu: '',
                 province: [],
                 provincecity: '',
@@ -1108,6 +1131,9 @@
                 }, {
                     value: '3',
                     label: '集体房'
+                }, {
+                    value: '4',
+                    label: '小产权'
                 }],
                 //委托方式
                 optionsentrust: [{
@@ -1188,15 +1214,18 @@
             this.followView ()
         },
         methods: {
+            // 修改经纪人
             clickyipi () {
                 this.liuyipi = true
                 this.liuerpi = false
             },
+            // 修改经纪人 取消修改
             clickesanpi () {
                 this.liuyipi = false
                 this.liuerpi = true
                 this.$message.error('取消修改');
             },
+            // 修改经纪人 确定修改
             clickerpi () {
                 if (this.liu == '') {
                     this.$message.error('经纪人不能为空');
@@ -1300,7 +1329,7 @@
                 this.fromCommunityId = item.id
                 this.peopleType = item.peopleType
             },
-            //移动 添加跟进 事件
+            // 添加跟进 移动事件
             move(e){
               let odiv = e.target;    //获取目标元素
               //算出鼠标相对元素的位置
@@ -1342,6 +1371,7 @@
                         var code = data.code
                         if (code == '0') {
                             var views = data.object
+                            console.log(views)
                             // this.houseCode ()
                             this.ruleForm.name = views.sellerName
                             //男女
@@ -1455,35 +1485,16 @@
                             }
                             //获取图片展示
                             this.fileList = []
-                            if (views.shImgA !== '' && views.shImgA !== null) {
-                                this.fileList.push({url:views.shImgA,name:views.shImgA,response:{resultBean:{object:views.shImgA}}})
+                            for (var i = 0; i < views.imgList.length; i++) {
+                               this.fileList.push({url:views.imgList[i],name:views.imgList[i],response:{resultBean:{object:views.imgList[i]}}})
                             }
-                            if (views.shImgB !== '' && views.shImgB !== null) {
-                                this.fileList.push({url:views.shImgB,name:views.shImgB,response:{resultBean:{object:views.shImgB}}})
-                            }
-                            if (views.shImgC !== '' && views.shImgC !== null) {
-                                this.fileList.push({url:views.shImgC,name:views.shImgC,response:{resultBean:{object:views.shImgC}}})
-                            }
-                            if (views.shImgD !== '' && views.shImgD !== null) {
-                                this.fileList.push({url:views.shImgD,name:views.shImgD,response:{resultBean:{object:views.shImgD}}})
-                            }
-                            if (views.shImgE !== '' && views.shImgE !== null) {
-                                this.fileList.push({url:views.shImgE,name:views.shImgF,response:{resultBean:{object:views.shImgF}}})
-                            }
-                            if (views.shImgF !== '' && views.shImgF !== null) {
-                                this.fileList.push({url:views.shImgF,name:views.shImgF,response:{resultBean:{object:views.shImgF}}})
-                            }
-                            if (views.shImgG !== '' && views.shImgG !== null) {
-                                this.fileList.push({url:views.shImgG,name:views.shImgG,response:{resultBean:{object:views.shImgG}}})
-                            }
-                            if (views.shImgH !== '' && views.shImgH !== null) {
-                                this.fileList.push({url:views.shImgH,name:views.shImgH,response:{resultBean:{object:views.shImgH}}})
-                            }
-                            if (views.shImgI !== '' && views.shImgI !== null) {
-                                this.fileList.push({url:views.shImgI,name:views.shImgI,response:{resultBean:{object:views.shImgI}}})
-                            }
-                            if (views.shImgJ !== '' && views.shImgJ !== null) {
-                                this.fileList.push({url:views.shImgJ,name:views.shImgJ,response:{resultBean:{object:views.shImgJ}}})
+                            // console.log(this.fileList)
+                            //获取图片展示2
+                            this.fileListTwo = []
+                            if (views.entrustImg =='') {
+                                this.fileListTwo = []
+                            } else {
+                                this.fileListTwo.push({url:views.entrustImg,name:views.entrustImg,response:{resultBean:{object:views.entrustImg}}})
                             }
                             // console.log(this.fileList)
                             this.remarks = views.houseRemarks
@@ -1499,9 +1510,11 @@
                             this.selectEntrustUse = views.entrustType
                             this.selectSourceUse = views.sourceFrom
                             this.selectStateUse = views.houseState
-                            // this.img.concat(this.fileList)
-                            this.imgB = this.fileList
-                            console.log(this.imgB)
+                            this.img = views.imgList
+                            this.imgA = []
+                            this.img2 = views.entrustImg
+                            this.imgB = []
+                            // console.log(this.imgB)
                             this.fromCommunity = views.fromCommunity
                         } else if (code == '3') {
                             this.$router.push('/login');
@@ -1835,32 +1848,53 @@
             },
             //删除成功收回调
             handleRemove(file, fileList) {
-                // console.log(fileList);
-                var filelist1
-                var obj1 = []
-                for (var i =0; i < fileList.length; i++) {
-                    filelist1 = fileList[i].response.resultBean.object
-                    obj1.push(filelist1)
-                }
-                this.imgA = obj1
                 var filelist
                 var obj = []
-                for (var i =0; i < this.imgB.length; i++) {
-                    filelist = this.imgB[i].response.resultBean.object
+                for (var i = 0; i < fileList.length; i++) {
+                    filelist = fileList[i].response.resultBean.object
                     obj.push(filelist)
                 }
-                this.imgC = obj
+                console.log(obj);
+                var filelist1
+                var obj1 = []
+                for (var i = 0; i < this.fileList.length; i++) {
+                    filelist1 = this.fileList[i].response.resultBean.object
+                    obj1.push(filelist1)
+                }
+                console.log(obj1);
+                this.delImg (obj1,obj)
+                this.img = obj
                 this.$message({
                     message: '删除成功',
                     type: 'success',
                 });
-                this.shanchu (this.imgC,this.imgA)
-                console.log(this.imgA,this.imgC)
             },
-            //删除图片的数组  //两个数组对比得出最终删除的数组
-            shanchu (array,array2) {
-                var arr3 =[];
-                for (var key in array) {
+            //删除成功收回调
+            handleRemoveTwo(file, fileList) {
+                var filelist
+                var obj = []
+                for (var i = 0; i < fileList.length; i++) {
+                    filelist = fileList[i].response.resultBean.object
+                    obj.push(filelist)
+                }
+                console.log(obj);
+                var filelist1
+                var obj1 = []
+                for (var i = 0; i < this.fileListTwo.length; i++) {
+                    filelist1 = this.fileListTwo[i].response.resultBean.object
+                    obj1.push(filelist1)
+                }
+                console.log(obj1);
+                this.delImgTwo (obj1,obj)
+                this.img2 = obj1[1]
+                this.$message({
+                    message: '删除成功',
+                    type: 'success',
+                });
+            },
+            delImg (array,array2) {
+                var arr3 =[];
+                for (let key in array) {
                     var stra = array[key];
                     var count = 0;
                     for(var j= 0; j < array2.length; j++){
@@ -1869,12 +1903,32 @@
                             count++;
                         }
                     }
-                    if(count===0) {//表示数组1的这个值没有重复的，放到arr3列表中
+                    if(count===0) {
+                        //表示数组1的这个值没有重复的，放到arr3列表中
                         arr3.push(stra);
                     }
                 }
-                this.imgD = arr3
-                console.log(this.imgD)
+                this.imgA = arr3
+                console.log(this.imgA)
+            },
+            delImgTwo (array,array2) {
+                var arr3 =[];
+                for (let key in array) {
+                    var stra = array[key];
+                    var count = 0;
+                    for(var j= 0; j < array2.length; j++){
+                        var strb = array2[j];
+                        if(stra == strb) {
+                            count++;
+                        }
+                    }
+                    if(count===0) {
+                        //表示数组1的这个值没有重复的，放到arr3列表中
+                        arr3.push(stra);
+                    }
+                }
+                this.imgB = arr3
+                console.log(this.imgB)
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.response.resultBean.object;
@@ -1882,7 +1936,8 @@
             },
             // 上传成功后的回调
             uploadSuccess (response, file, fileList) {
-                console.log(fileList)
+                console.log(file)
+                // console.log(getCookie('JSESSIONID'))
                 var filelist
                 var obj = []
                 for (var i = 0; i < fileList.length; i++) {
@@ -1895,6 +1950,24 @@
                     message: '上传成功',
                     type: 'success',
                 });
+            },
+            // 上传成功后的回调
+            uploadSuccessTwo (response, file, fileList) {
+                // if (response.headers['code'] === '3') {
+                //     // console.log(response.headers['message'])
+                //     this.$router.push('/login');
+                //     this.$message.error('登陆超时，请重新登陆');
+                // } else if (response.headers['code'] === '4') {
+                //     this.$router.push('/login');
+                //     this.$message.error('您的账号在其他地方登陆');
+                // } else {
+                    // console.log(obj);
+                    this.img2 = file.response.resultBean.object
+                    this.$message({
+                        message: '上传成功',
+                        type: 'success',
+                    });
+                // }
             },
             // 上传前对文件的大小的判断
             beforeAvatarUpload (file) {
@@ -1913,6 +1986,11 @@
             uploadMax (files, fileList) {
                 // this.disabledUpload = true
                 this.$message.error('最多上传 10 张图片')
+            },
+            // 上限设置
+            uploadMaxTwo (files, fileList) {
+                // this.disabledUpload = true
+                this.$message.error('最多上传 1 张图片')
             },
             //产房查重
             // houseRepeat () {
@@ -1960,14 +2038,12 @@
                     this.$message.error('请输入手机号码');
                     return
                 }
-                console.log(this.ruleFormTwo.timeone)
                 var that = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // var vId3=this.vId3.map(Number)
                         console.log(this.imgD)
                         var forms = {
-                            urlList: this.imgD,
                             sellerName: this.ruleForm.name,
                             sellerSex: this.vId,
                             sellerMobileOne: this.ruleForm.phone,
@@ -2000,16 +2076,10 @@
                             deliverTimeStr: this.ruleFormTwo.timetwo,
                             houseState: this.selectStateUse,
                             sourceFrom: this.selectSourceUse,
-                            shImgA: this.img[0],
-                            shImgB: this.img[1],
-                            shImgC: this.img[2],
-                            shImgD: this.img[3],
-                            shImgE: this.img[4],
-                            shImgF: this.img[5],
-                            shImgG: this.img[6],
-                            shImgH: this.img[7],
-                            shImgI: this.img[8],
-                            shImgJ: this.img[9],
+                            addImgList: this.img,
+                            deleteImgList: this.imgA,
+                            entrustImg: this.img2,
+                            deleteEntrustImgList: this.imgB,
                             houseRemarks: this.remarks,
 
                         }
@@ -2228,11 +2298,11 @@
                             this.view = data.object
                             this.names = data.object.communityName
                             this.maps = data.object.address
-                            this.img = data.object.imgList
+                            this.img1 = data.object.imgList
                             this.isYN = getCookie('isYN')
                             this.viewsellers()
-                            if (this.img.length == 0) {
-                                this.img = ["static/img/img.jpg"]
+                            if (this.img1.length == 0) {
+                                this.img1 = ["static/img/img.jpg"]
                             }
                             this.loadmap ()
                         } else if (code == '3') {
@@ -2269,7 +2339,7 @@
                     // console.log(searchResult)
                     var sContent =
                       "<div>" + "<h4 style='margin:0 0 5px 0;font-weight:bold; font-size:20px;padding:0.2em 0'>"+that.names+"</h4>" +
-                      "<img style='float:right;margin:4px' id='imgDemo' src='"+that.img[0]+"' width='139' height='104'/>" +
+                      "<img style='float:right;margin:4px' id='imgDemo' src='"+that.img1[0]+"' width='139' height='104'/>" +
                       "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>地址："+searchResult.keyword+"</p>" +
                       "</div>"
                     var poi = searchResult.getPoi(0)
