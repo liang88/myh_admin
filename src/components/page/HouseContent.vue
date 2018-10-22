@@ -1134,6 +1134,12 @@
                 }, {
                     value: '4',
                     label: '小产权'
+                }, {
+                    value: '5',
+                    label: '经适房'
+                }, {
+                    value: '6',
+                    label: '其他'
                 }],
                 //委托方式
                 optionsentrust: [{
