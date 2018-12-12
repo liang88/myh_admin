@@ -312,6 +312,48 @@
                 </div>
             </transition>
         </div>
+
+<!-- 第N块 查看记录 -->
+        <div class="comment" style="margin-top: 10px">
+            <div style="font-size: 20px;color: #e54648; padding: 10px 0;" >
+                查看记录
+            </div>
+            <div class="comment-text-show" v-for="view in viewList1" >
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <div class="comment-head">
+                            <img :src="view.viewerImg" alt="">
+                        </div>
+                    </el-col>
+                    <el-col :span="22">
+                        <el-row :gutter="20">
+                            <el-col :span="24">
+                                <p class="comment-name" >{{view.viewerName}}<span></span></p>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="20">
+                            <el-col :span="22">
+                                <p class="comment-con comment-con-list" >{{view.storeName}} </p>
+                            </el-col>
+                            <el-col :span="2">
+                                <p style=" text-align: right;" >{{view.viewTime}} </p>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="fenye" >
+                <div class="block">
+                    <el-pagination
+                    @current-change="handleCurrentChange1"
+                    :page-size="pageSize1"
+                    :current-page.sync="diyige1"
+                    layout="prev, pager, next"
+                    :total="viewAll1">
+                    </el-pagination>
+                </div>
+            </div>
+        </div>
 <!-- 修改信息 -->
         <transition name="el-zoom-in-center">
             <div class="append-house" v-show="appendHouse" >
@@ -773,10 +815,15 @@
                 },
                 //跟进展示
                 viewList: [],
+                viewList1: [],
                 currentpage: '',
+                currentpage1: '',
                 pageSize: 5,
+                pageSize1: 5,
                 viewAll: 5,
+                viewAll1: 5,
                 diyige: 1,
+                diyige1: 1,
                 isYesNo: false,
                 //添加跟进
                 appendHouse: false,
@@ -1218,6 +1265,7 @@
             // this.searchByStationName()
             this.viewHouse ()
             this.followView ()
+            this.viewRecord ()
         },
         methods: {
             // 修改经纪人
@@ -2205,6 +2253,31 @@
                     }
                 });
             },
+            // 查看记录
+            viewRecord () {
+                this.$http.post(myHost+'myh_management/getRecordBySellerId',{
+                    sellerId: this.sellerId,
+                    page: {
+                        pageNum: this.currentpage1,
+                        pageSize: this.pageSize1
+                    }
+                }).then(response => {
+                    var data = response.data
+                    data = data.resultBean
+                    var code = data.code
+                    if (code == '0') {
+                        data = data.object
+                        this.viewAll1 = data.total
+                        this.viewList1 = data.list
+                        // console.log(this.viewList1)
+                    } else if (code == '3') {
+                        this.$router.push('/login');
+                        this.$message.error(data.message);
+                    } else {
+                        // this.$message.error(data.message);
+                    }
+                })
+            },
             // 展示跟进
             followView () {
                 var datas = {
@@ -2241,6 +2314,12 @@
                 this.currentpage = val
                 // this.viewTable ()
                 this.followView ()
+            },
+            // 分页 查看记录
+            handleCurrentChange1(val) {
+                this.currentpage1 = val
+                // this.viewTable ()
+                this.viewRecord ()
             },
             addClass (index) {
                 this.current=index;
@@ -2306,7 +2385,8 @@
                             this.maps = data.object.address
                             this.img1 = data.object.imgList
                             this.isYN = getCookie('isYN')
-                            this.viewsellers()
+                            // this.viewsellers()
+                            this.viewRecord ()
                             if (this.img1.length == 0) {
                                 this.img1 = ["static/img/img.jpg"]
                             }
